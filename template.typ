@@ -38,9 +38,9 @@
   auto-indent: true,
 
   // if heading level is less than or equal to this value, a line will be drawn under the heading and indexed in the toc
-  major_heading_level: 3,
-  thmbox_settings: (
-    counter_level: 2,
+  major-heading-level: 3,
+  thmbox-settings: (
+    counter-level: 2,
     breakable: true,
   ),
   colorscheme: colorscheme,
@@ -53,7 +53,7 @@
   show heading: it => {
     set text(fill: colorscheme.accent, weight: "bold", font: "Harano Aji Gothic")
     it
-    if it.level <= major_heading_level {
+    if it.level <= major-heading-level {
       v(-0.5em)
       line(length: 100%, stroke: (paint: colorscheme.accent, thickness: 1pt))
     }
@@ -79,8 +79,8 @@
 
   // Setup for theorem-like environments
   import "@preview/thmbox:0.3.0": *
-  show: thmbox-init(counter-level: thmbox_settings.counter_level)
-  if thmbox_settings.breakable {
+  show: thmbox-init(counter-level: thmbox-settings.counter-level)
+  if thmbox-settings.breakable {
     show figure.where(kind: "thmbox"): set block(breakable: true)
   }
   show figure.where(kind: "thmbox"): set text(font: "Harano Aji Mincho")
@@ -606,3 +606,26 @@
     ..args
   )
 }
+
+#let abstract(
+  title: [概要],
+  body,
+  ..args
+) = showybox(
+  title: align(center, {
+    set text(font: "Harano Aji Gothic", fill: colorscheme.accent, weight: "bold")
+    title
+  }),
+  frame: (
+    border-color: colorscheme.accent,
+    title-color: colorscheme.accent.lighten(95%),
+    body-color: colorscheme.accent.lighten(95%),
+    radius: 0em,
+    thickness: 1pt
+  ),
+  {
+    set text(size: 0.9em)
+    body
+  },
+  ..args
+)
