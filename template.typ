@@ -29,8 +29,6 @@
 )
 
 #let colorscheme-formal-patch = (
-  background: rgb("#f6fafa"),
-  text: rgb("#041010"),
   accent: rgb("#041010"),
 )
 
