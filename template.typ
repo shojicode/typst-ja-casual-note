@@ -14,18 +14,18 @@
   important: rgb("#ff0000"),
 
   // thmboxの定理環境の色
-  theorem: rgb("#f0e68c"),
-  definition: rgb("#e6e6fa"),
-  proposition: rgb("#ffe4e1"),
-  lemma: rgb("#e0ffff"),
-  corollary: rgb("#f5deb3"),
-  example: rgb("#d8bfd8"),
-  remark: rgb("#f5f5dc"),
-  note-thmbox: rgb("#b0c4de"),
-  exercise: rgb("#fafad2"),
-  algorithm: rgb("#e0ffff"),
-  claim: rgb("#f5deb3"),
-  axiom: rgb("#d8bfd8"),
+  theorem: rgb("#209c68"),
+  definition: rgb("#03c8eb"),
+  proposition: rgb("#8ed41d"),
+  lemma: rgb("#6bc48a"),
+  corollary: rgb("#f2af31"),
+  example: rgb("#415cf1"),
+  remark: rgb("#d70202"),
+  note-thmbox: rgb("#2c70c9"),
+  exercise: rgb("#c90269"),
+  algorithm: rgb("#00a093"),
+  claim: rgb("#a9720b"),
+  axiom: rgb("#003d2c"),
 )
 
 #let colorscheme-formal-patch = (
