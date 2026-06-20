@@ -290,6 +290,19 @@
 }
 
 /// maketitle
+/// 
+/// arrayのネストによって挙動が変わる。\
+/// *Example:*
+/// `authors: (Alice, Bob)` -> 2名の著者AliceとBobがいる場合。\
+/// `authors: ((Alice, K University), (Bob, S University))` -> 2名の著者AliceとBobがいて、それぞれK大学、S大学に所属している場合。\
+/// `authors: "Alice"` -> 著者は単独。\
+/// もし、単独著者に所属を書きたい場合は、Typstの仕様により、\
+/// `authors: (("Alice", "K University"))`\
+/// が,\
+///　`authors: ("Alice", "K University")`\
+/// と同義になるため、内側の括弧の直後にカンマを入れて、\
+/// `authors: (("Alice", "K University"),)`\
+/// のように書く必要がある。
 #let maketitle(
   title: none,
   subtitle: none,
@@ -318,55 +331,165 @@
         v(0.5em)
       }
       
-      // 以下、著者名をいい感じに表示するロジック。関数に切り出してもいいかもしれない。
-      if authors != none {
-        if type(authors) == content {
-          authors
-        } else if type(authors) == array {
-          if affiliation-footnote {
-            for author in authors {
-              if type(author) == array {
-                author.at(0)
-                footnote(author.at(1))
-              } else {
-                author
-              }
+      // ==============================================
+      // ここから著者と所属をいい感じに表示するための
+      // ヘルパーとロジック
+      // ==============================================
 
-              if author != authors.at(-1) {
-                ", "
-              }
-            }
-          } else {
-            for author in authors {
-              // 著者名の下に小さく所属を書く場合
-              box(
-                {
-                  show table.cell: set text(font: "Harano Aji Mincho", fill: colorscheme.text, weight: "regular")
+      let depth(x) = {
+        if type(x) != array {
+          0
+        } else if x.len() == 0 {
+          1
+        } else {
+          1 + calc.max(..x.map(depth))
+        }
+      }
 
-                  show table.cell.where(y: 1): set text(size: 0.85em)
+      /*
+      algorithm:
+      1. authorsの深さを測る。
+        - 0 -> 著者は単独かつ所属などを書かない場合、あるいはユーザが自由に書きたい場合。
+        - 1 -> 著者が複数いるが、所属などを書かない場合。
+        - 2 -> 著者に所属などを書きたい場合（1人の場合も含む）。
+        - more -> 著者の書き方が不正。
+      2. 著者の深さが0の場合、authorsをそのまま表示する。
+      3. 著者の深さが1の場合、
+        - affiliation-footnoteがtrueの場合、`,`で区切って表示する。
+        - affiliation-footnoteがfalseの場合、適度なスペースを入れて表示する。
+      4. 著者の深さが2の場合、
+        - affiliation-footnoteがtrueの場合、`,`で区切って表示する。さらに、footnoteで所属を表示する。
+        - affiliation-footnoteがfalseの場合、著者名の下に小さく所属を書く。これは、`box`の中に`table`を入れることで実現する。
+      5. 著者の深さが2より大きい場合、エラーを出す。
 
-                  if type(author) == array {
-                    table(
-                      columns: 1,
-                      stroke: 0pt,
-                      ..author
-                    )
-                  } else {
-                    table(
-                      columns: 1,
-                      stroke: 0pt,
-                      author, ""
-                    )
-                  }
-                }
-              )
+      なお、所属関連ブロックの下にv(0.5em)を入れることで、著者と日付（または本文）との間に適度なスペースを入れる。
+      */
+
+      let authors_depth = depth(authors)
+
+      if authors_depth > 2 {
+        error("Invalid type for authors")
+      } else if authors_depth == 0{
+        authors
+        v(0.5em)
+      } else if authors_depth == 1 {
+        if affiliation-footnote {
+          for author in authors {
+            author
+            if author != authors.at(-1) {
+              ", "
             }
           }
         } else {
-          error("Invalid type for authors")
+          for author in authors {
+            box(
+              {
+                show table.cell: set text(font: "Harano Aji Mincho", fill: colorscheme.text, weight: "regular")
+
+                show table.cell.where(y: 1): set text(size: 0.85em)
+
+                table(
+                  columns: 1,
+                  stroke: 0pt,
+                  author, ""
+                )
+              }
+            )
+          }
         }
         v(0.5em)
+      } else if authors_depth == 2 {
+        if affiliation-footnote {
+          for author in authors {
+            if type(author) == array {
+              author.at(0)
+              footnote(author.at(1))
+            } else {
+              author
+            }
+
+            if author != authors.at(-1) {
+              ", "
+            }
+          }
+        } else {
+          for author in authors {
+            box(
+              {
+                show table.cell: set text(font: "Harano Aji Mincho", fill: colorscheme.text, weight: "regular")
+
+                show table.cell.where(y: 1): set text(size: 0.85em)
+
+                if type(author) == array {
+                  table(
+                    columns: 1,
+                    stroke: 0pt,
+                    ..author
+                  )
+                } else {
+                  table(
+                    columns: 1,
+                    stroke: 0pt,
+                    author, ""
+                  )
+                }
+              }
+            )
+          }
+        }
+
+
+        v(0.5em)
       }
+
+      // if authors != none {
+      //   if type(authors) == content {
+      //     authors
+      //   } else if type(authors) == array {
+      //     if affiliation-footnote {
+      //       for author in authors {
+      //         if type(author) == array {
+      //           author.at(0)
+      //           footnote(author.at(1))
+      //         } else {
+      //           author
+      //         }
+
+      //         if author != authors.at(-1) {
+      //           ", "
+      //         }
+      //       }
+      //     } else {
+      //       for author in authors {
+      //         // 著者名の下に小さく所属を書く場合
+      //         box(
+      //           {
+      //             show table.cell: set text(font: "Harano Aji Mincho", fill: colorscheme.text, weight: "regular")
+
+      //             show table.cell.where(y: 1): set text(size: 0.85em)
+
+      //             if type(author) == array {
+      //               table(
+      //                 columns: 1,
+      //                 stroke: 0pt,
+      //                 ..author
+      //               )
+      //             } else {
+      //               table(
+      //                 columns: 1,
+      //                 stroke: 0pt,
+      //                 author, ""
+      //               )
+      //             }
+      //           }
+      //         )
+      //       }
+      //     }
+      //   } else {
+      //     error("Invalid type for authors")
+      //   }
+      //   v(0.5em)
+      // }
 
       if date != none {
         text(date, font: "Harano Aji Mincho", fill: colorscheme.text, weight: "regular")
