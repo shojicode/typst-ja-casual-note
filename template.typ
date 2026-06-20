@@ -249,12 +249,6 @@
   color: colorscheme.proposition,
 )
 
-#let my-note = note.with(
-  variant: [#icon("mdi:note-check", width: 1.1em)#h(0.5em)"注意"],
-  color: colorscheme.note
-)
-
-
 // alternative of \today in LaTeX
 #let today() = datetime.today().display("[year]年[month padding:none]月[day padding:none]日")
 
