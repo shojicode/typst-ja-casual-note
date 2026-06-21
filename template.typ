@@ -235,11 +235,13 @@
 )
 
 #let claim = claim.with(
+  sans: false,
   variant: "主張",
   color: colorscheme.claim,
 )
 
 #let axiom = axiom.with(
+  sans: false,
   variant: "公理",
   color: colorscheme.axiom,
 )
