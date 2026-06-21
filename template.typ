@@ -416,17 +416,6 @@
   )]
 }
 
-#let author-sample(authors) = {
-  set footnote(numbering: (..args) => {
-    args.pos().at(0) * "†" // 脚注は一回層のみなので、取り出してリピート
-  })
-  authors.at(0).at(0)
-  footnote(authors.at(0).at(1))
-
-  authors.at(1).at(0)
-  footnote(authors.at(1).at(1))
-}
-
 // Markdown形式の表をレンダリングするモジュール
 #import "@preview/tablem:0.3.0": tablem
 
