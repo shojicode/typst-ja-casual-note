@@ -1,0 +1,7 @@
+[package]
+name = "ja-casual-note"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Tama"]
+license = "MIT"
+description = "A casual note template in Japanese for Typst."
