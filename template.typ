@@ -538,3 +538,7 @@
 
 /// 区切りが欲しいけどセクションは変えたくない場合のための水平線。
 #let hr = line(length: 100%, stroke: (paint: colorscheme.accent, thickness: 0.3pt))
+
+// nCm, nPmなどを簡易に書く関数
+#let comb(n, k) = $attach(bl: #n, "C", br: #k)$
+#let perm(n, k) = $attach(bl: #n, "P", br: #k)$
