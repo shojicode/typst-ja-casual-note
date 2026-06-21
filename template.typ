@@ -434,55 +434,6 @@
         v(0.5em)
       }
 
-      // if authors != none {
-      //   if type(authors) == content {
-      //     authors
-      //   } else if type(authors) == array {
-      //     if affiliation-footnote {
-      //       for author in authors {
-      //         if type(author) == array {
-      //           author.at(0)
-      //           footnote(author.at(1))
-      //         } else {
-      //           author
-      //         }
-
-      //         if author != authors.at(-1) {
-      //           ", "
-      //         }
-      //       }
-      //     } else {
-      //       for author in authors {
-      //         // 著者名の下に小さく所属を書く場合
-      //         box(
-      //           {
-      //             show table.cell: set text(font: "Harano Aji Mincho", fill: colorscheme.text, weight: "regular")
-
-      //             show table.cell.where(y: 1): set text(size: 0.85em)
-
-      //             if type(author) == array {
-      //               table(
-      //                 columns: 1,
-      //                 stroke: 0pt,
-      //                 ..author
-      //               )
-      //             } else {
-      //               table(
-      //                 columns: 1,
-      //                 stroke: 0pt,
-      //                 author, ""
-      //               )
-      //             }
-      //           }
-      //         )
-      //       }
-      //     }
-      //   } else {
-      //     error("Invalid type for authors")
-      //   }
-      //   v(0.5em)
-      // }
-
       if date != none {
         text(date, font: "Harano Aji Mincho", fill: colorscheme.text, weight: "regular")
       }
