@@ -536,4 +536,5 @@
   ..args
 )
 
-#let ln = line(length: 100%, stroke: (paint: colorscheme.accent, thickness: 0.3pt))
+/// 区切りが欲しいけどセクションは変えたくない場合のための水平線。
+#let hr = line(length: 100%, stroke: (paint: colorscheme.accent, thickness: 0.3pt))
