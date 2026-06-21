@@ -158,13 +158,9 @@
 // テンプレートを適用したドキュメントでもcodlyの設定を上書きできるようにするため、モジュールを再公開する。
 #import "@preview/codly:1.3.0": *
 
-// #let icon(name, size: 1.2em) = image(
-//   "assets/icons/" + name + ".svg",
-//   width: size
-// )
-#import "@preview/iconify:0.5.3":icon as ic, provide-icons
 
-// #provide-icons(json("assets/mdi.json"))
+// アイコンに関するパッケージのimportとラッパーの定義
+#import "@preview/iconify:0.5.3":icon as ic, provide-icons
 
 #let icon(..args) = {
   provide-icons(json("assets/mdi.json"))
@@ -174,6 +170,7 @@
   // 現状この処理で問題はないため、対応優先度は低い。
   ic(y: -0.25em, ..args)
 }
+
 
 // wrappers for predefined thmbox variants
 #import "@preview/thmbox:0.3.0": *
