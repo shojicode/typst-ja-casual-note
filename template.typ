@@ -254,35 +254,6 @@
 // alternative of \today in LaTeX
 #let today() = datetime.today().display("[year]年[month padding:none]月[day padding:none]日")
 
-#let author-mgr(
-  authors,
-  // 所属の示し方には流派があると思うので、ユーザに任せる
-  show_author_with_affiliation: (
-    author
-  ) => {
-    author.at(0)
-    footnote(author.at(1))
-  }
-) = {
-  if type(authors) == array {
-    // 著者が複数いる場合（所属を書く場合も含む）
-    for author in authors {
-      if type(author) == array {
-        show_author_with_affiliation(author)
-      }
-      else {
-        author
-      }
-      if author != authors.at(-1) {
-        ", "
-      }
-    }
-  } else if type(authors) == content {
-    // 著者は単独かつ所属などを書かない場合、あるいはユーザが自由に書きたい場合
-    authors
-  }
-}
-
 /// maketitle
 /// 
 /// arrayのネストによって挙動が変わる。\
