@@ -289,7 +289,11 @@
       v(0.5em)
 
       if subtitle != none {
-        text(subtitle, font: "Harano Aji Gothic", size: 1.25em)
+        if serif-title {
+          text(subtitle, font: "Harano Aji Mincho", fill: colorscheme.text, weight: "regular")
+        } else {
+          text(subtitle, font: "Harano Aji Gothic", fill: colorscheme.text, weight: "regular")
+        }
         v(0.5em)
       }
       
