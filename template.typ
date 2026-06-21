@@ -535,3 +535,5 @@
   },
   ..args
 )
+
+#let ln = line(length: 100%, stroke: (paint: colorscheme.accent, thickness: 0.3pt))
